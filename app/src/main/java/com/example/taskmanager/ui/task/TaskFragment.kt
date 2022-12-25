@@ -5,8 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
+import androidx.navigation.fragment.findNavController
+import com.example.taskmanager.App
 import com.example.taskmanager.R
 import com.example.taskmanager.databinding.FragmentTaskBinding
+import com.example.taskmanager.model.Task
 
 
 class TaskFragment : Fragment() {
@@ -16,9 +21,26 @@ class TaskFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding=FragmentTaskBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnSave.setOnClickListener {
+            save()
+        }
+    }
+
+    private fun save() {
+        val data = Task(
+            title = binding.etTitle.text.toString(),
+            desc = binding.etDesc.text.toString())
+        App.db.dao().insert(data)
+        App.db.dao().delete(data)
+        //setFragmentResult("rq_task", bundleOf("task" to data))
+        findNavController().navigateUp()
     }
 
 }

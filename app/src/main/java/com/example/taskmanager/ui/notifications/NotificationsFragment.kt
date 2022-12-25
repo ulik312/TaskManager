@@ -22,7 +22,6 @@ class NotificationsFragment : Fragment() {
     ): View {
 
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 

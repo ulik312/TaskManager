@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'         //плагин для подлкючения базы данных room
 }
 
 android {
@@ -50,4 +51,23 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Glide — это библиотека загрузчика изображений для Android
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
+    //Circle Indicator кругляшки для переходов индикатор переходов, в котором видны как переходишь по вюшкам ,viewpage
+    implementation 'me.relex:circleindicator:2.1.6'
+
+    //это тоже индикатор но другой формы
+    //implementation("com.tbuonomo:dotsindicator:4.3")
+
+    //это библеотека room база данных, для хранения и использования данных в андроиде
+    def room_version = "2.4.3"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
 }
