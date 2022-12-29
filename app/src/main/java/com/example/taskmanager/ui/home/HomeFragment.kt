@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.example.taskmanager.R
 import com.example.taskmanager.databinding.FragmentHomeBinding
 import com.example.taskmanager.model.Task
 import com.example.taskmanager.ui.home.adapter.TaskAdapter
+
 
 class HomeFragment : Fragment() {
 
@@ -25,11 +27,11 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var data : List<Task>
+    private lateinit var data: List<Task>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = TaskAdapter(this::onClick)
+        adapter = TaskAdapter(this::onLongClick, this::onCLick)
     }
 
     override fun onCreateView(
@@ -45,16 +47,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapter
-        data = App.db.dao().getAll()           //получение данных через room
-        adapter.addTasks(data)
+        setData()
 
-       /* setFragmentResultListener("rq_task") { key, bundle ->
+        /* setFragmentResultListener("rq_task") { key, bundle ->
             // здесь можно передать любой тип,поддерживаемый Bundle-ом
             val data: Task = bundle.getSerializable("task") as Task
             adapter.addTask(data)
         }*/
 
-        binding.fab.setOnClickListener{
+        binding.fab.setOnClickListener {
             findNavController().navigate(R.id.taskFragment)
         }
     }
@@ -64,19 +65,33 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun onClick(position: Int){
+    private fun setData() {
+        data = App.db.dao().getAll()           //получение данных через room
+        adapter.addTasks(data)
+    }
+
+    private fun onCLick(task: Task) {
+        findNavController().navigate(R.id.taskFragment, bundleOf(KEY_FOR_TASK to task))
+    }
+
+    private fun onLongClick(position: Int) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Вы уверенны что хотите удалить?")
         builder.setMessage("Если вы удалите данную строку его нельзя будет восстановить!")
         builder.setPositiveButton("Да!") { dialogInterface: DialogInterface, i: Int ->
             App.db.dao().delete(data[position])
-            findNavController().run {
+            setData()
+            /* findNavController().run {
                 popBackStack()
                 navigate(R.id.navigation_home)
-            }
+            }*/
         }
         builder.setNegativeButton("Нет!") { dialogInterface: DialogInterface, i: Int ->
         }
         builder.show()
+    }
+
+    companion object {
+        const val KEY_FOR_TASK = "task"
     }
 }

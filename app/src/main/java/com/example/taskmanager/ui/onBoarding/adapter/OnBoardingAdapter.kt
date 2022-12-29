@@ -13,9 +13,9 @@ class OnBoardingAdapter(private val context: Context, private val onClick: ()-> 
     RecyclerView.Adapter<OnBoardingAdapter.OnBoardingViewHolder>() {
 
     private val data = arrayListOf(
-        OnBoard(R.drawable.ic_juice_1, "juice_Fresh1"),
-        OnBoard(R.drawable.ic_juice_2, "juice_Fresh2"),
-        OnBoard(R.drawable.ic_juice_1, "juice_Fresh3")
+        OnBoard(R.raw.world, "juice_Fresh1"),
+        OnBoard(R.raw.world2, "juice_Fresh2"),
+        OnBoard(R.raw.world3, "juice_Fresh3")
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnBoardingViewHolder {

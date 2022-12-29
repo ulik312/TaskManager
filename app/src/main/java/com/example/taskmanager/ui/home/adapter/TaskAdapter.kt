@@ -8,7 +8,8 @@ import com.example.taskmanager.databinding.ItemTaskBinding
 import com.example.taskmanager.model.Task
 
 class TaskAdapter(
-    private val onClick: (pos : Int) -> Unit,
+    private val onLongClick: (pos : Int) -> Unit,
+    private val onClick: (task: Task) -> Unit,
 ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     private val data: ArrayList<Task> = arrayListOf()
@@ -22,10 +23,6 @@ class TaskAdapter(
         )
     }
 
-    fun addTask(task: Task) {
-        data.add(0, task)
-        notifyItemChanged(0)
-    }
 
     fun addTasks(newData: List<Task>) {
         data.clear()
@@ -49,10 +46,13 @@ class TaskAdapter(
             binding.tvDesc.text = task.desc
 
             itemView.setOnLongClickListener {
-                onClick(adapterPosition)
-                return@setOnLongClickListener false
+                onLongClick(adapterPosition)
+                false
             }
+            itemView.setOnClickListener {
+                onClick(task)
 
         }
     }
+}
 }
