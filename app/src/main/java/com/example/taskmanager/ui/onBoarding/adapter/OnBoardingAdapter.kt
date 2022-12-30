@@ -36,7 +36,7 @@ class OnBoardingAdapter(private val context: Context, private val onClick: ()-> 
         ViewHolder(binding.root) {
         fun bind(onBoard: OnBoard) {
             binding.tvTitle.text = onBoard.title
-            binding.ivBoarding.setImageResource(onBoard.image!!)
+            binding.ivBoarding.setAnimation(onBoard.anim!!)
 
             if (adapterPosition == data.lastIndex) {
                 binding.tvSkip.text = context.getString(R.string.next)

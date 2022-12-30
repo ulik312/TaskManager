@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.taskmanager.data.Pref
 import com.example.taskmanager.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val pref = Pref(this)
+        val auth = FirebaseAuth.getInstance()
 
         val navView: BottomNavigationView = binding.navView
 
@@ -33,6 +35,10 @@ class MainActivity : AppCompatActivity() {
 
         if (!pref.isOnBoardingSeen())
             navController.navigate(R.id.onBoardingFragment)
+
+        if (auth.currentUser == null) {
+            navController.navigate(R.id.authFragment)
+        }
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -52,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             navView.isVisible = navFragments.contains(destination.id)
-            if (destination.id == R.id.onBoardingFragment){
+            if (destination.id == R.id.onBoardingFragment || destination.id == R.id.authFragment){
                 supportActionBar?.hide()                   //системный акшен бар чтоб скрыть его
             }else supportActionBar?.show()
 
