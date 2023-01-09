@@ -3,6 +3,7 @@ package com.example.taskmanager.ui.home
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.example.taskmanager.R
 import com.example.taskmanager.databinding.FragmentHomeBinding
 import com.example.taskmanager.model.Task
 import com.example.taskmanager.ui.home.adapter.TaskAdapter
+import com.example.taskmanager.utils.isNetworkConnected
+//import com.google.firebase.firestore.FirebaseFirestore
 
 
 class HomeFragment : Fragment() {
@@ -66,15 +69,40 @@ class HomeFragment : Fragment() {
     }
 
     private fun setData() {
-        data = App.db.dao().getAll()           //получение данных через room
-        adapter.addTasks(data)
+        if(requireContext().isNetworkConnected()){
+            //get data from firebase
+            getData()
+        } else {
+            val data = App.db.dao().getAll()           //получение данных через room
+            adapter.addTasks(data)
+        }
+    }
+
+    private fun getData() {
+        App.firebaseDB?.collection("tasks")?.get()?.addOnCompleteListener {
+            if(it.isSuccessful){
+                val data = arrayListOf<Task>()
+                for (i in it.result) {
+                    val task = i.toObject(Task::class.java)
+                    data.add(task)
+                    //Log.e("ololo", "isSuccess:" + i)
+                }
+                adapter.addTasks(data)
+            }
+        }
+            ?.addOnFailureListener {
+                Log.e("ololo", "getData:" + it.message)
+            }
     }
 
     private fun onCLick(task: Task) {
-        findNavController().navigate(R.id.taskFragment, bundleOf(KEY_FOR_TASK to task))
+        if (!requireContext().isNetworkConnected()) {
+            findNavController().navigate(R.id.taskFragment, bundleOf(KEY_FOR_TASK to task))
+        }
     }
 
     private fun onLongClick(position: Int) {
+        if (!requireContext().isNetworkConnected()) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Вы уверенны что хотите удалить?")
         builder.setMessage("Если вы удалите данную строку его нельзя будет восстановить!")
@@ -89,6 +117,7 @@ class HomeFragment : Fragment() {
         builder.setNegativeButton("Нет!") { dialogInterface: DialogInterface, i: Int ->
         }
         builder.show()
+        }
     }
 
     companion object {

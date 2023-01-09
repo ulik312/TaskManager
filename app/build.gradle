@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'com.google.gms.google-services'//плагин для подлкючения базы данных room
+    id 'com.google.gms.google-services'       //плагин для подлкючения базы данных room
 }
 
 android {
@@ -76,4 +76,9 @@ dependencies {
 
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"       //она нужна для анимации
+
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.1' //она нужна для того чтобы подключить удаленную базу данных в файрбейс
+
+    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'       // новые
+    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'    // новые
 }

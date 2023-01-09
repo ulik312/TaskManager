@@ -3,6 +3,7 @@ package com.example.taskmanager
 import android.app.Application
 import androidx.room.Room
 import com.example.taskmanager.data.local.AppDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 
 class App: Application() {                              // здесь дали название нашему приложению
 
@@ -12,9 +13,11 @@ class App: Application() {                              // здесь дали �
             applicationContext,
             AppDatabase::class.java, "database_name"           //создали экземпляр класса дата басе database
         ).allowMainThreadQueries().build()                           //allowMainThreadQueries помогает создать в главном потоке базу данных если выходит ошибка
+        firebaseDB = FirebaseFirestore.getInstance()
     }
 
     companion object{
-        lateinit var db: AppDatabase                              //создаем базу данных а точнее database
+        lateinit var db: AppDatabase                            //создаем базу данных а точнее database
+        var firebaseDB: FirebaseFirestore? = null
     }
 }
