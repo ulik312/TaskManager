@@ -1,6 +1,7 @@
 package com.example.taskmanager
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.taskmanager.data.Pref
 import com.example.taskmanager.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,5 +67,10 @@ class MainActivity : AppCompatActivity() {
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+                Log.e("ololo", "onCreate: " + it.result)                       //Токен для отправки уведомления,который выходит в logcat и оттуда уже надо сгенерированный токен вставить в firebase
+
+        }
     }
 }

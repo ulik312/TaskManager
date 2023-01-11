@@ -17,6 +17,8 @@ import com.example.taskmanager.databinding.FragmentHomeBinding
 import com.example.taskmanager.model.Task
 import com.example.taskmanager.ui.home.adapter.TaskAdapter
 import com.example.taskmanager.utils.isNetworkConnected
+import com.example.taskmanager.utils.showToast
+
 //import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -98,6 +100,8 @@ class HomeFragment : Fragment() {
     private fun onCLick(task: Task) {
         if (!requireContext().isNetworkConnected()) {
             findNavController().navigate(R.id.taskFragment, bundleOf(KEY_FOR_TASK to task))
+        } else{
+            showToast("Not update data")
         }
     }
 
