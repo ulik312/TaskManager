@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'com.example.taskmanager'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.taskmanager"
         minSdk 24
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -39,7 +39,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -47,40 +47,29 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.room:room-common:2.4.2'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'me.relex:circleindicator:2.1.6'
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
 
-    //Glide — это библиотека загрузчика изображений для Android
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
-
-    //Circle Indicator кругляшки для переходов индикатор переходов, в котором видны как переходишь по вюшкам ,viewpage
-    implementation 'me.relex:circleindicator:2.1.6'
-
-    //это тоже индикатор но другой формы
-    //implementation("com.tbuonomo:dotsindicator:4.3")
-
-    //это библеотека room база данных, для хранения и использования данных в андроиде
+    implementation("com.tbuonomo:dotsindicator:4.3")
     def room_version = "2.4.3"
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
-
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.1'
     // To use Kotlin annotation processing tool (kapt)
     kapt "androidx.room:room-compiler:$room_version"
-
-    def lottieVersion = "3.4.0"
-    implementation "com.airbnb.android:lottie:$lottieVersion"       //она нужна для анимации
-
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.1' //она нужна для того чтобы подключить удаленную базу данных в файрбейс
-
-    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'       // новые
-    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'    // новые
-
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'  // она нужна для того чтобы приходили уведомления push message, уведомления смс
 }

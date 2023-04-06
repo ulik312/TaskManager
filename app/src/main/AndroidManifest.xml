@@ -32,7 +32,7 @@
         </activity>
 
         <service
-            android:name=".service.PushNotificationService"
+            android:name=".ui.service.PushNotificationService"
             android:exported="false">
             <intent-filter>
                 <action

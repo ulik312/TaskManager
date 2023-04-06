@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.taskmanager.model.Task
+import com.example.taskmanager.ui.model.Task
 
 @Dao                      // он нужен для библеотки базы данных room, для того чтобы сохранять,получать,удалять, итд
 interface TaskDao {

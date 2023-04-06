@@ -1,12 +1,11 @@
 package com.example.taskmanager
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -20,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
 
         if (!pref.isOnBoardingSeen())
             navController.navigate(R.id.onBoardingFragment)
@@ -41,35 +39,34 @@ class MainActivity : AppCompatActivity() {
         if (auth.currentUser == null) {
             navController.navigate(R.id.authFragment)
         }
-
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_dashboard,
                 R.id.navigation_notifications,
+                R.id.taskFragment,
                 R.id.navigation_profile,
-                R.id.taskFragment
+                R.id.authFragment
             )
         )
         val navFragments = arrayListOf(
             R.id.navigation_home,
             R.id.navigation_dashboard,
             R.id.navigation_notifications,
-            R.id.navigation_profile,
-        )
+            R.id.navigation_profile
 
+        )
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             navView.isVisible = navFragments.contains(destination.id)
-            if (destination.id == R.id.onBoardingFragment || destination.id == R.id.authFragment){
-                supportActionBar?.hide()                   //системный акшен бар чтоб скрыть его
-            }else supportActionBar?.show()
-
+            if (destination.id == R.id.onBoardingFragment || destination.id == R.id.authFragment) {
+                supportActionBar?.hide()                 //системный акшен бар чтоб скрыть его
+            } else supportActionBar?.show()
         }
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
-                Log.e("ololo", "onCreate: " + it.result)                       //Токен для отправки уведомления,который выходит в logcat и оттуда уже надо сгенерированный токен вставить в firebase
+            Log.e("ololo", "onCreate: " + it.result)                               //Токен для отправки уведомления,который выходит в logcat и оттуда уже надо сгенерированный токен вставить в firebase
 
         }
     }

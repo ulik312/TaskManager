@@ -28,7 +28,6 @@
         android:label="Task"
         tools:layout="@layout/fragment_task" />
 
-
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.taskmanager.ui.profile.ProfileFragment"
@@ -36,7 +35,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.example.taskmanager.ui.onBoarding.OnBoardingFragment"
+        android:name="com.example.taskmanager.ui.profile.onBoarding.OnBoardingFragment"
         android:label="fragment_on_boarding"
         tools:layout="@layout/fragment_on_boarding" />
     <fragment
